@@ -31,7 +31,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="index3.html" class="brand-link">
-      <img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+      <img src="../../dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
            style="opacity: .8">
       <span class="brand-text font-weight-light">AP Res Kitchen</span>
     </a>
@@ -41,7 +41,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+          <img src="../../dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
           <a href="#" class="d-block">{{auth()->user()->name}}</a>
@@ -86,7 +86,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <h1 class="m-0 text-dark">Kitchen Panel</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
-
+            <form action="/logout" method="post" class="float-right">
+              @csrf
+              <button type="submit" class="btn btn-danger">Logout</button>
+            </form>
           </div><!-- /.col -->
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
@@ -149,10 +152,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <!-- Page specific script -->
 <script>
   $(function () {
+
     $('#dishes').DataTable({
       "paging": true,
+      "pageLength": 5,
       "lengthChange": false,
-      "searching": false,
+      "searching": true,
       "ordering": true,
       "info": true,
       "autoWidth": false,

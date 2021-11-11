@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Orders;
+use App\Models\Order;
+
 use Illuminate\Http\Request;
 
 class OrdersController extends Controller
@@ -14,7 +15,7 @@ class OrdersController extends Controller
      */
     public function index()
     {
-        $orders=Orders::all();
+        $orders=Order::all();
         return view('Kitchen.orders',compact('orders'));
     }
 
