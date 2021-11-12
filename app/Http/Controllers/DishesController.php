@@ -46,6 +46,7 @@ class DishesController extends Controller
      */
     public function store(DishCreateRequest $request)
     { 
+        
         $imageName=$request->image->getClientOriginalName().".".$request->image->getClientOriginalExtension();
         $request->image->move(public_path('dish_images'), $imageName);
 

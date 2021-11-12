@@ -10,7 +10,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
 
-  <title>AdminLTE 3 | Starter</title>
+  <title>FoodOrderingSystem</title>
 
   <!-- Font Awesome Icons -->
   <!-- Google Font: Source Sans Pro -->
@@ -56,13 +56,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <li class="nav-item has-treeview menu-open">
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="/dishes" class="nav-link active">
+                <a href="/dishes" class="nav-link {{ Request::segment(1) == 'dishes' ? 'active' : null}}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Dishes</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="/orders" class="nav-link">
+                <a href="/orders" class="nav-link {{ Request::segment(1) == 'orders' ? 'active' : null}}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Orders</p>
                 </a>

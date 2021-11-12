@@ -9,7 +9,6 @@
               <!-- /.card-header -->
               <div class="card-body">
 <form action="/dishes" method="post" enctype="multipart/form-data">
-
 @csrf
 @error('name')
     <div class="alert alert-warning">{{ $message }}</div>

@@ -3,13 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Dish;
-
 use App\Models\Order;
 use App\Models\Table;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class OrdersController extends Controller
+class OrderFormController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,10 +17,12 @@ class OrdersController extends Controller
      */
     public function index()
     {
+        $tables=Table::all();
+        $dishes=Dish::orderBy('id','desc')->get();
+        $orders=Order::where('status',4)->get();
         $rawStatus=config('res.order_status');
         $status=array_flip($rawStatus);
-        $orders=Order::whereIn('status',[1,2])->get();
-        return view('Kitchen.orders',compact('orders','status'));
+        return view('order_form',compact('dishes','tables','orders','status'));
     }
 
     /**
@@ -42,7 +43,30 @@ class OrdersController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'phoneNo' => 'required|max:20',
+        ]);
+  
+$orders=array_filter($request->except('_token','phoneNo','table'));
 
+if(count($orders) >= 1){
+foreach($orders as $key=>$value){
+    $rand=rand();
+    DB::table('orders')->insert([
+        'table_id'=>(int)$request->table,
+        'dish_id'=>$key,
+        'phoneNo'=>$request->phoneNo,
+        'status'=>config('res.order_status.new'),
+        'quantity'=>(int)$value,
+        'created_at'=>now(),
+       ]);
+};
+return redirect('/')->with('ordered','successfully ordered!');
+
+}else{
+    return redirect('/')->with('No_order_yet','Please order something that you love to enjoy!');
+}
+ 
     }
 
     /**
@@ -89,34 +113,4 @@ class OrdersController extends Controller
     {
         //
     }
-
-public function approve(Order $order){
-
-$order->status=config('res.order_status.processing');
-$order->save();
-return redirect('/orders')->with('approve','just approved one dish');
-
-}
-
-public function cancel(Order $order){
-
-    $order->status=config('res.order_status.cancel');
-    $order->save();
-    return redirect('/orders')->with('cancel','canceled one dish');
-    
-    }
-
-    public function ready(Order $order){
-
-        $order->status=config('res.order_status.ready');
-        $order->save();
-        return redirect('/orders')->with('ready','just ready one dish');
-        
-        }
-        public function serve(Order $order){
-
-            $order->status=config('res.order_status.done');
-            $order->save();
-            return redirect('/order_form')->with('serve','order served');
-            }
 }
